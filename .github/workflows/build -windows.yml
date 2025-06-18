@@ -30,7 +30,11 @@ jobs:
         run: flutter build windows
         working-directory: tobakingv1
 
-      - name: Upload Windows Build
+      - name: Show Build Output (for Debug)
+        run: dir
+        working-directory: tobakingv1/build/windows/runner/Release
+
+      - name: Upload Windows Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-release
