@@ -13,29 +13,25 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Flutter (Stable)
-        uses: flutter-actions/setup-flutter@v2
+      - name: Setup Flutter (Stable Channel)
+        uses: subosito/flutter-action@v2
         with:
           channel: stable
-
-      - name: Install dependencies
-        run: flutter pub get
-        working-directory: tobakingv1
 
       - name: Enable Windows Desktop
         run: flutter config --enable-windows-desktop
         working-directory: tobakingv1
 
-      - name: Build Windows App
-        run: flutter build windows --verbose
+      - name: Install Dependencies
+        run: flutter pub get
         working-directory: tobakingv1
 
-      - name: Check build output
-        run: dir
-        working-directory: tobakingv1/build/windows/runner/Release
+      - name: Build Windows EXE
+        run: flutter build windows
+        working-directory: tobakingv1
 
-      - name: Upload Build
+      - name: Upload Windows Build
         uses: actions/upload-artifact@v4
         with:
           name: windows-release
-          path: tobakingv1/build/windows/runner/Release/
+          path: tobakingv1/build/windows/x64/runner/Release/
