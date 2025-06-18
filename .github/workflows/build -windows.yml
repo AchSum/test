@@ -14,33 +14,32 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Flutter (Stable Channel)
-        uses: flutter-actions/setup-flutter@v2
+        uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          flutter-version: 'stable'
 
-      - name: Flutter Doctor
-        run: flutter doctor -v
-        working-directory: tobakingv1
-
-      - name: Create Windows Folder (if not exists)
-        run: flutter create .
+      - name: Enable Windows Desktop
+        run: flutter config --enable-windows-desktop
         working-directory: tobakingv1
 
       - name: Install Dependencies
         run: flutter pub get
         working-directory: tobakingv1
 
-      - name: Enable Windows Desktop
-        run: flutter config --enable-windows-desktop
-        working-directory: tobakingv1
-
-      - name: Build Windows EXE (Release)
+      - name: Build Windows (Release)
         run: flutter build windows --release
         working-directory: tobakingv1
 
-      - name: List Build Output
-        run: dir
-        working-directory: tobakingv1/build/windows/runner
+      - name: Check Build Output
+        run: |
+          if (Test-Path "tobakingv1/build/windows/runner/Release") {
+            Write-Host "✅ Release folder exists."
+            dir tobakingv1/build/windows/runner/Release
+          } else {
+            Write-Host "❌ Build output not found!"
+            dir tobakingv1/build/windows/runner
+          }
+        shell: pwsh
 
       - name: Upload Windows Build Artifact
         uses: actions/upload-artifact@v4
