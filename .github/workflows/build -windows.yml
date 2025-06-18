@@ -20,15 +20,18 @@ jobs:
 
       - name: Install Dependencies
         run: flutter pub get
+        working-directory: tobakingv1
 
       - name: Enable Windows Desktop
         run: flutter config --enable-windows-desktop
+        working-directory: tobakingv1
 
       - name: Build Windows EXE
         run: flutter build windows
+        working-directory: tobakingv1
 
       - name: Upload Windows Build
         uses: actions/upload-artifact@v4
         with:
           name: windows-release
-          path: build/windows/runner/Release/
+          path: tobakingv1/build/windows/runner/Release/
