@@ -18,6 +18,10 @@ jobs:
         with:
           channel: stable
 
+      - name: Create Windows Folder (if not exists)
+        run: flutter create .
+        working-directory: tobakingv1
+
       - name: Install Dependencies
         run: flutter pub get
         working-directory: tobakingv1
@@ -29,10 +33,6 @@ jobs:
       - name: Build Windows EXE
         run: flutter build windows
         working-directory: tobakingv1
-
-      - name: Show Build Output (for Debug)
-        run: dir
-        working-directory: tobakingv1/build/windows/runner/Release
 
       - name: Upload Windows Build Artifact
         uses: actions/upload-artifact@v4
